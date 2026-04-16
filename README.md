@@ -117,7 +117,7 @@ deckuse list slides ./deck
 Task = “Move title on slide 3”
 
 ```bash
-deckuse move ./deck "slide:3/title" --dx 100 --dy 0
+deckuse move ./deck "slide:3/title" --left 0.1 --top 0.2
 ```
 
 ---

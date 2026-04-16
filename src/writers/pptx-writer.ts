@@ -151,18 +151,19 @@ export class PptxWriter {
   }
 
   /**
-   * Move a shape by delta
+   * Move a shape to absolute left/top.
+   * Note: in @deckflow/pptx-modifier, values in [0, 1] are treated as percentages.
    */
   async moveShape(
     slideIndex: number,
     shapeId: string,
-    dx: number,
-    dy: number
+    left: number,
+    top: number
   ): Promise<void> {
     await this.modifyTextOrThrow(shapeId, async (modifier, idPath) => {
       await modifier.modifyShapeStyleByIdPath(
         idPath,
-        { left: dx, top: dy },
+        { left, top },
         slideIndex
       )
     })

@@ -21,6 +21,7 @@ export { getTextCommand } from './commands/get-text.js'
 export { setTextCommand } from './commands/set-text.js'
 export { replaceTextCommand } from './commands/replace-text.js'
 export { setFontSizeCommand } from './commands/set-font-size.js'
+export { moveCommand } from './commands/move.js'
 
 // Types
 export type {

@@ -12,6 +12,7 @@ import { getTextCommand } from './commands/get-text.js'
 import { setTextCommand } from './commands/set-text.js'
 import { replaceTextCommand } from './commands/replace-text.js'
 import { setFontSizeCommand } from './commands/set-font-size.js'
+import { moveCommand } from './commands/move.js'
 import { logger } from './utils/logger.js'
 
 const program = new Command()
@@ -178,6 +179,30 @@ setCmd
   .action(async (workspace, selector, size, options) => {
     try {
       await setFontSizeCommand(workspace, selector, size, options)
+    } catch (error) {
+      if (error instanceof Error) {
+        if (process.env.DEBUG && error.stack) console.error(error.stack)
+        logger.error(error.message)
+        process.exit(1)
+      }
+    }
+  })
+
+// Move command
+program
+  .command('move')
+  .description('Move matched shapes by setting left/top (0..1 as percentage)')
+  .argument('<workspace>', 'Workspace directory or PPTX file path')
+  .argument('<selector>', 'Selector expression')
+  .requiredOption('--left <left>', 'Left position (0..1)', parseFloat)
+  .requiredOption('--top <top>', 'Top position (0..1)', parseFloat)
+  .option(
+    '-o, --output <output>',
+    'Output PPTX file path (required when <workspace> is a .pptx file; optional for workspace directories)'
+  )
+  .action(async (workspace, selector, options) => {
+    try {
+      await moveCommand(workspace, selector, options)
     } catch (error) {
       if (error instanceof Error) {
         if (process.env.DEBUG && error.stack) console.error(error.stack)
